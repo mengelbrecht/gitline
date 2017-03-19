@@ -10,7 +10,7 @@ Screenshot of gitline with a few changes to a git repository:
 Screenshot of gitline with a lot of changes (work on a feature branch, changes on `origin/master`,
 staged and unstaged modified files, untracked files, stashes, etc.):
 
-![](screenshot_2.png)
+<img src="screenshot_2.png" width="503" height="21">
 
 ## Table Of Contents
 
@@ -206,7 +206,7 @@ set -x GITLINE_BRANCH '[${blue}${branch}${reset}]'
 
 Screenshot:
 
-![](screenshot_example.png)
+<img src="screenshot_example.png" width="266" height="22">
 
 ## Thanks
 
