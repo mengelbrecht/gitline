@@ -194,13 +194,13 @@ If you have a powerline compatible font you can also use the alternative repo in
 
 When using bash/zsh:
 ```shell
-export GITLINE_REPO_INDICATOR='git'
+export GITLINE_REPO_INDICATOR='${reset}git'
 export GITLINE_BRANCH='[${blue}${branch}${reset}]'
 ```
 
 When using fish:
 ```shell
-set -x GITLINE_REPO_INDICATOR 'git'
+set -x GITLINE_REPO_INDICATOR '${reset}git'
 set -x GITLINE_BRANCH '[${blue}${branch}${reset}]'
 ```
 
