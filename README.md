@@ -4,10 +4,12 @@ gitline is a heads up display for git. It shows all relevant status information 
 It can be used by shell prompts to display git information (eg. [slimfish](https://github.com/mgee/slimfish) and [slimline](https://github.com/mgee/slimline)).
 
 Screenshot of gitline with a few changes to a git repository:
+
 ![](screenshot_1.png)
 
 Screenshot of gitline with a lot of changes (work on a feature branch, changes on `origin/master`,
 staged and unstaged modified files, untracked files, stashes, etc.):
+
 ![](screenshot_2.png)
 
 ## Table Of Contents
@@ -203,6 +205,7 @@ set -x GITLINE_BRANCH '[${blue}${branch}${reset}]'
 ```
 
 Screenshot:
+
 ![](screenshot_example.png)
 
 ## Thanks
