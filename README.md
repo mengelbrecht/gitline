@@ -187,11 +187,17 @@ Defines the format used to display the number of stashes. Default is `${stashes}
 
 ## Example
 
-Here is an example for customizing the git repository indicator and branch format in
-the [slimfish](https://github.com/mgee/slimfish) prompt theme which uses gitline:
+Here is an example for customizing the git repository indicator and branch format.
+If you have a powerline compatible font you can also use the alternative repo indicator ``.
 
+When using bash/zsh:
 ```shell
-# If you have a powerline compatible font you can also use the alternative repo indicator ''.
+export GITLINE_REPO_INDICATOR='git'
+export GITLINE_BRANCH='[${blue}${branch}${reset}]'
+```
+
+When using fish:
+```shell
 set -x GITLINE_REPO_INDICATOR 'git'
 set -x GITLINE_BRANCH '[${blue}${branch}${reset}]'
 ```
