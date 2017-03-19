@@ -3,10 +3,10 @@
 gitline is a heads up display for git. It shows all relevant status information for a git repository in a compact and customizable way.
 It can be used by shell prompts to display git information (eg. [slimfish](https://github.com/mgee/slimfish) and [slimline](https://github.com/mgee/slimline)).
 
-With a few changes to a git repository:
+Screenshot of gitline with a few changes to a git repository:
 ![](screenshot_1.png)
 
-With a lot of changes (work on a feature branch, changes on `origin/master`,
+Screenshot of gitline with a lot of changes (work on a feature branch, changes on `origin/master`,
 staged and unstaged modified files, untracked files, stashes, etc.):
 ![](screenshot_2.png)
 
@@ -202,6 +202,7 @@ set -x GITLINE_REPO_INDICATOR 'git'
 set -x GITLINE_BRANCH '[${blue}${branch}${reset}]'
 ```
 
+Screenshot:
 ![](screenshot_example.png)
 
 ## Thanks
