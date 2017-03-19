@@ -5,7 +5,7 @@ It can be used by shell prompts to display git information (eg. [slimfish](https
 
 Screenshot of gitline with a few changes to a git repository:
 
-![](screenshot_1.png)
+<img src="screenshot_1.png" width="503" height="21">
 
 Screenshot of gitline with a lot of changes (work on a feature branch, changes on `origin/master`,
 staged and unstaged modified files, untracked files, stashes, etc.):
