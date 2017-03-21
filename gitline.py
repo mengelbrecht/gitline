@@ -25,7 +25,7 @@ def parse_repository():
             return subprocess.Popen(command, stdout=subprocess.PIPE, stderr=DEVNULL, universal_newlines=True).communicate()[0]
 
     repo = dict(
-        directory="", branch="", remote="", remote_tracking_branch="", sha1="",
+        directory="", branch="", remote="", remote_tracking_branch="", hash="",
         local_commits_to_pull=0, local_commits_to_push=0, remote_commits_to_pull=0, remote_commits_to_push=0,
         staged_added=0, staged_modified=0, staged_deleted=0, staged_renamed=0, staged_copied=0,
         unstaged_modified=0, unstaged_deleted=0, untracked=0, unmerged=0, stashes=0
@@ -44,8 +44,8 @@ def parse_repository():
     def branch():
         repo['branch'] = execute(['git', 'symbolic-ref', '--short', 'HEAD']).rstrip()
 
-    def sha1():
-        repo['sha1'] = execute(['git', 'rev-parse', '--short', 'HEAD']).rstrip()
+    def hash():
+        repo['hash'] = execute(['git', 'rev-parse', '--short', 'HEAD']).rstrip()
 
     def stashes():
         repo['stashes'] = execute(['git', 'stash', 'list']).count('\n')
@@ -97,7 +97,7 @@ def parse_repository():
     def remote_commits_to_push():
         repo['remote_commits_to_push'] = commits_to_push('origin/master', repo['remote_tracking_branch'])
 
-    execute_tasks(status, branch, stashes, sha1)
+    execute_tasks(status, branch, stashes, hash)
     repo['remote'] = execute(['git', 'config', '--get', 'branch.' + repo['branch'] + '.remote']).rstrip()
     repo['remote_tracking_branch'] = execute(
         ['git', 'config', '--get', 'branch.' + repo['branch'] + '.merge']).rstrip().replace('refs/heads',
@@ -134,7 +134,7 @@ def build_prompt(repo):
                 env_str('REMOTE_COMMITS_PUSH_PULL',
                         '𝘮 ${remote_commits_to_pull} ${yellow}⇄${reset} ${remote_commits_to_push}')],
                repo['remote_commits_to_pull'], repo['remote_commits_to_push']),
-        choose([env_str('DETACHED', '${red}detached@${sha1}${reset}'), env_str('BRANCH', '${branch}')], repo['branch']),
+        choose([env_str('DETACHED', '${red}detached@${hash}${reset}'), env_str('BRANCH', '${branch}')], repo['branch']),
         choose(['',
                 env_str('LOCAL_COMMITS_PUSH', '${local_commits_to_push}${green}↑${reset}'),
                 env_str('LOCAL_COMMITS_PULL', '${local_commits_to_pull}${red}↓${reset}'),

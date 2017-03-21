@@ -64,7 +64,7 @@ Available colors are: `gray`, `red`, `green`, `yellow`, `blue`,
 | `branch`                 | the current branch                                                           |
 | `remote`                 | the remote with the tracking branch                                          |
 | `remote_tracking_branch` | the remote tracking branch                                                   |
-| `sha1`                   | the shortform sha1 of HEAD                                                   |
+| `hash`                   | the shortform hash of HEAD                                                   |
 | `local_commits_to_pull`  | commits available to pull from the remote tracking branch                    |
 | `local_commits_to_push`  | commits available to push from the remote tracking branch                    |
 | `remote_commits_to_pull` | commits available to pull from `origin/master` to the remote tracking branch |
@@ -118,7 +118,7 @@ Defines the format for the local branch. Default is `${branch}`.
 
 #### `GITLINE_DETACHED`
 
-Defines the format if the repository is not on a branch. Default is `${red}detached@${sha1}${reset}`.
+Defines the format if the repository is not on a branch. Default is `${red}detached@${hash}${reset}`.
 
 ### Local Commits
 
