@@ -241,18 +241,26 @@ class PromptBuilder:
         self.data.update(colors)
         self.data.update(vars(repo))
         self.parts = []
+        self.current_part = []
 
     def add(self, env_key, env_default):
-        self.parts.append(Template(os.getenv('GITLINE_' + env_key, env_default)).substitute(self.data))
+        self.current_part.append(Template(os.getenv('GITLINE_' + env_key, env_default)).substitute(self.data))
+
+    def add_section(self):
+        self.parts.append(self.current_part)
+        self.current_part = []
 
     def build(self):
-        return ' '.join(self.parts)
+        self.add_section()
+        return ' '.join(''.join(part) for part in self.parts if part)
 
 
 def build_prompt(colors, repo):
     pb = PromptBuilder(colors, repo)
+    pb.add_section()
     pb.add('REPO_INDICATOR', '${reset}ᚴ')
 
+    pb.add_section()
     if repo.action:
         if repo.action_step and repo.action_total:
             pb.add('ACTION_STEPS',
@@ -260,9 +268,11 @@ def build_prompt(colors, repo):
         else:
             pb.add('ACTION', '${yellow}${action}${reset}')
 
+    pb.add_section()
     if not repo.remote_tracking_branch and not repo.commit_tag:
         pb.add('NO_TRACKED_UPSTREAM', 'upstream ${red}⚡${reset}')
 
+    pb.add_section()
     if repo.remote_commits_to_push and repo.remote_commits_to_pull:
         pb.add('REMOTE_COMMITS_PUSH_PULL', '𝘮 ${remote_commits_to_pull} ${yellow}⇄${reset} ${remote_commits_to_push}')
     elif repo.remote_commits_to_push:
@@ -270,6 +280,7 @@ def build_prompt(colors, repo):
     elif repo.remote_commits_to_pull:
         pb.add('REMOTE_COMMITS_PULL', '𝘮 ${red}→${reset}${remote_commits_to_pull}')
 
+    pb.add_section()
     if repo.branch:
         pb.add('BRANCH', '${branch}')
     elif repo.commit_tag:
@@ -277,6 +288,7 @@ def build_prompt(colors, repo):
     else:
         pb.add('DETACHED', '${red}detached@${commit_hash}${reset}')
 
+    pb.add_section()
     if repo.local_commits_to_pull and repo.local_commits_to_push:
         pb.add('LOCAL_COMMITS_PUSH_PULL', '${local_commits_to_pull} ${yellow}⥯${reset} ${local_commits_to_push}')
     elif repo.local_commits_to_push:
@@ -284,9 +296,9 @@ def build_prompt(colors, repo):
     elif repo.local_commits_to_pull:
         pb.add('LOCAL_COMMITS_PULL', '${local_commits_to_pull}${red}↓${reset}')
 
+    pb.add_section()
     if repo.staged_added:
         pb.add('STAGED_ADDED', '${staged_added}${green}A${reset}')
-
     if repo.staged_modified:
         pb.add('STAGED_MODIFIED', '${staged_modified}${green}M${reset}')
     if repo.staged_deleted:
@@ -296,15 +308,21 @@ def build_prompt(colors, repo):
     if repo.staged_copied:
         pb.add('STAGED_COPIED', '${staged_copied}${green}C${reset}')
 
+    pb.add_section()
     if repo.unstaged_modified:
         pb.add('UNSTAGED_MODIFIED', '${unstaged_modified}${red}M${reset}')
     if repo.unstaged_deleted:
         pb.add('UNSTAGED_DELETED', '${unstaged_deleted}${red}D${reset}')
 
+    pb.add_section()
     if repo.untracked:
         pb.add('UNTRACKED', '${untracked}${white}A${reset}')
+
+    pb.add_section()
     if repo.unmerged:
         pb.add('UNMERGED', '${unmerged}${yellow}U${reset}')
+
+    pb.add_section()
     if repo.stashes:
         pb.add('STASHES', '${stashes}${yellow}≡${reset}')
 
