@@ -22,7 +22,8 @@ import os
 def parse_repository():
     def execute(command):
         with open(os.devnull) as DEVNULL:
-            return subprocess.Popen(command, stdout=subprocess.PIPE, stderr=DEVNULL, universal_newlines=True).communicate()[0]
+            return subprocess.Popen(command, stdout=subprocess.PIPE, stderr=DEVNULL,
+                                    universal_newlines=True).communicate()[0]
 
     repo = dict(
         directory="", branch="", remote="", remote_tracking_branch="", hash="",
