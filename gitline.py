@@ -158,12 +158,11 @@ def build_prompt(repo):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('directory', nargs='?', help='directory to display git info for')
-    args = parser.parse_args()
-    if args.directory:
-        os.chdir(args.directory)
+    arguments = parser.parse_args()
+    if arguments.directory:
+        os.chdir(arguments.directory)
 
     r = parse_repository()
     if r:
         prompt = build_prompt(r)
         print(prompt)
-
