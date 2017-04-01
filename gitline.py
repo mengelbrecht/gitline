@@ -12,11 +12,11 @@
 # -------------------------------------------------------------------------------
 
 import argparse
-import os
-import sys
 import subprocess
 from string import Template
 from threading import Thread
+
+import os
 
 
 def parse_repository():
