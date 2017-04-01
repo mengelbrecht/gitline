@@ -26,7 +26,7 @@ def parse_repository():
                                     universal_newlines=True).communicate()[0]
 
     repo = dict(
-        directory="", branch="", remote="", remote_tracking_branch="", hash="",
+        directory="", branch="", remote="", remote_tracking_branch="", hash="", commit_tag="",
         local_commits_to_pull=0, local_commits_to_push=0, remote_commits_to_pull=0, remote_commits_to_push=0,
         staged_added=0, staged_modified=0, staged_deleted=0, staged_renamed=0, staged_copied=0,
         unstaged_modified=0, unstaged_deleted=0, untracked=0, unmerged=0, stashes=0
@@ -45,8 +45,11 @@ def parse_repository():
     def branch():
         repo['branch'] = execute(['git', 'symbolic-ref', '--short', 'HEAD']).rstrip()
 
-    def hash():
+    def commit_hash():
         repo['hash'] = execute(['git', 'rev-parse', '--short', 'HEAD']).rstrip()
+
+    def commit_tag():
+        repo['commit_tag'] = execute(['git', 'describe', '--exact-match', '--tags']).rstrip()
 
     def stashes():
         repo['stashes'] = execute(['git', 'stash', 'list']).count('\n')
@@ -98,7 +101,7 @@ def parse_repository():
     def remote_commits_to_push():
         repo['remote_commits_to_push'] = commits_to_push('origin/master', repo['remote_tracking_branch'])
 
-    execute_tasks(status, branch, stashes, hash)
+    execute_tasks(status, branch, stashes, commit_hash, commit_tag)
     repo['remote'] = execute(['git', 'config', '--get', 'branch.' + repo['branch'] + '.remote']).rstrip()
     repo['remote_tracking_branch'] = execute(
         ['git', 'config', '--get', 'branch.' + repo['branch'] + '.merge']).rstrip().replace('refs/heads',
@@ -128,18 +131,21 @@ def build_prompt(repo):
 
     parts = [
         expand((True, env_str('REPO_INDICATOR', '${reset}ᚴ'))),
-        expand((not repo['remote_tracking_branch'], env_str('NO_TRACKED_UPSTREAM', 'upstream ${red}⚡${reset}'))),
+        expand((not repo['remote_tracking_branch'] and not repo['commit_tag'],
+                env_str('NO_TRACKED_UPSTREAM', 'upstream ${red}⚡${reset}'))),
         choose(['',
                 env_str('REMOTE_COMMITS_PUSH', '𝘮 ${green}←${reset}${remote_commits_to_push}'),
                 env_str('REMOTE_COMMITS_PULL', '𝘮 ${red}→${reset}${remote_commits_to_pull}'),
                 env_str('REMOTE_COMMITS_PUSH_PULL',
                         '𝘮 ${remote_commits_to_pull} ${yellow}⇄${reset} ${remote_commits_to_push}')],
                repo['remote_commits_to_pull'], repo['remote_commits_to_push']),
-        choose([env_str('DETACHED', '${red}detached@${hash}${reset}'), env_str('BRANCH', '${branch}')], repo['branch']),
+        choose([env_str('DETACHED', '${red}detached@${hash}${reset}'), env_str('BRANCH', '${branch}'),
+                env_str('COMMIT_TAG', '${commit_tag}'), ''], repo['commit_tag'], repo['branch']),
         choose(['',
                 env_str('LOCAL_COMMITS_PUSH', '${local_commits_to_push}${green}↑${reset}'),
                 env_str('LOCAL_COMMITS_PULL', '${local_commits_to_pull}${red}↓${reset}'),
-                env_str('LOCAL_COMMITS_PUSH_PULL', '${local_commits_to_pull} ${yellow}⥯${reset} ${local_commits_to_push}')],
+                env_str('LOCAL_COMMITS_PUSH_PULL',
+                        '${local_commits_to_pull} ${yellow}⥯${reset} ${local_commits_to_push}')],
                repo['local_commits_to_pull'], repo['local_commits_to_push']),
         expand((repo['staged_added'], env_str('STAGED_ADDED', '${staged_added}${green}A${reset}')),
                (repo['staged_modified'], env_str('STAGED_MODIFIED', '${staged_modified}${green}M${reset}')),

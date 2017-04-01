@@ -62,6 +62,7 @@ Available colors are: `gray`, `red`, `green`, `yellow`, `blue`,
 | Placeholder              | Description                                                                  |
 | ------------------------ | ---------------------------------------------------------------------------- |
 | `branch`                 | the current branch                                                           |
+| `commit_tag`             | the tag for the current commit                                               |
 | `remote`                 | the remote with the tracking branch                                          |
 | `remote_tracking_branch` | the remote tracking branch                                                   |
 | `hash`                   | the shortform hash of HEAD                                                   |
@@ -115,6 +116,10 @@ Default is `𝘮 ${green}←${reset}${remote_commits_to_push}`.
 #### `GITLINE_BRANCH`
 
 Defines the format for the local branch. Default is `${branch}`.
+
+#### `GITLINE_COMMIT_TAG`
+
+Defines the format if a tag is checked out. Default is `${commit_tag}`.
 
 #### `GITLINE_DETACHED`
 
@@ -207,6 +212,11 @@ set -x GITLINE_BRANCH '[${blue}${branch}${reset}]'
 Screenshot:
 
 <img src="screenshot_example.png" width="266" height="22">
+
+## Users of gitline
+
+- [slimfish](https://github.com/mgee/slimfish) a fish prompt theme
+- [slimline](https://github.com/mgee/slimline) a zsh prompt theme
 
 ## Thanks
 
