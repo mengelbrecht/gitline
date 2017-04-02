@@ -16,7 +16,7 @@ from string import Template
 from subprocess import Popen, PIPE
 from threading import Thread
 
-import os
+from os import chdir, devnull, getenv, path
 
 # Constants {{{
 
@@ -33,13 +33,13 @@ zsh_colors = {'gray': '%F{gray}', 'red': '%F{red}', 'green': '%F{green}', 'yello
 # Utility functions {{{
 
 def execute(cmd):
-    with open(os.devnull) as DEVNULL:
+    with open(devnull) as DEVNULL:
         return Popen(cmd, stdout=PIPE, stderr=DEVNULL, universal_newlines=True).communicate()[0].rstrip()
 
 
-def read_file(path):
+def read_file(filename):
     try:
-        with open(path, 'r') as f:
+        with open(filename, 'r') as f:
             return f.read().rstrip()
     except IOError:
         return ''
@@ -146,41 +146,40 @@ class RepositoryParser:
 
     def _action(self):
         git_dir = self.repo.git_directory
-        rebase_merge_dir = os.path.join(git_dir, 'rebase-merge')
-        if os.path.isdir(rebase_merge_dir):
-            self.repo.action_step = parse_int(read_file(os.path.join(rebase_merge_dir, 'msgnum')))
-            self.repo.action_total = parse_int(read_file(os.path.join(rebase_merge_dir, 'end')))
-            self.repo.branch = extract_branch_name(read_file(os.path.join(rebase_merge_dir, 'head-name')), '')
-            self.repo.action = 'rebase -i' if os.path.isfile(
-                os.path.join(rebase_merge_dir, 'interactive')) else 'rebase -m'
+        rebase_merge_dir = path.join(git_dir, 'rebase-merge')
+        if path.isdir(rebase_merge_dir):
+            self.repo.action_step = parse_int(read_file(path.join(rebase_merge_dir, 'msgnum')))
+            self.repo.action_total = parse_int(read_file(path.join(rebase_merge_dir, 'end')))
+            self.repo.branch = extract_branch_name(read_file(path.join(rebase_merge_dir, 'head-name')), '')
+            self.repo.action = 'rebase -i' if path.isfile(path.join(rebase_merge_dir, 'interactive')) else 'rebase -m'
             return
 
-        rebase_apply_dir = os.path.join(git_dir, 'rebase-apply')
-        if os.path.isdir(rebase_apply_dir):
-            self.repo.action_step = parse_int(read_file(os.path.join(rebase_apply_dir, 'msgnum')))
-            self.repo.action_total = parse_int(read_file(os.path.join(rebase_apply_dir, 'end')))
-            if os.path.isfile(os.path.join(rebase_apply_dir, 'rebasing')):
-                self.repo.branch = extract_branch_name(read_file(os.path.join(rebase_apply_dir, 'head-name')), '')
+        rebase_apply_dir = path.join(git_dir, 'rebase-apply')
+        if path.isdir(rebase_apply_dir):
+            self.repo.action_step = parse_int(read_file(path.join(rebase_apply_dir, 'msgnum')))
+            self.repo.action_total = parse_int(read_file(path.join(rebase_apply_dir, 'end')))
+            if path.isfile(path.join(rebase_apply_dir, 'rebasing')):
+                self.repo.branch = extract_branch_name(read_file(path.join(rebase_apply_dir, 'head-name')), '')
                 self.repo.action = 'rebase'
-            elif os.path.isfile(os.path.join(rebase_apply_dir, 'applying')):
+            elif path.isfile(path.join(rebase_apply_dir, 'applying')):
                 self.repo.action = 'am'
             else:
                 self.repo.action = 'am/rebase'
             return
 
-        if os.path.isfile(os.path.join(git_dir, 'MERGE_HEAD')):
+        if path.isfile(path.join(git_dir, 'MERGE_HEAD')):
             self.repo.action = 'merge'
             return
 
-        if os.path.isfile(os.path.join(git_dir, 'CHERRY_PICK_HEAD')):
+        if path.isfile(path.join(git_dir, 'CHERRY_PICK_HEAD')):
             self.repo.action = 'cherry-pick'
             return
 
-        if os.path.isfile(os.path.join(git_dir, 'BISECT_LOG')):
+        if path.isfile(path.join(git_dir, 'BISECT_LOG')):
             self.repo.action = 'bisect'
             return
 
-        if os.path.isfile(os.path.join(git_dir, 'REVERT_HEAD')):
+        if path.isfile(path.join(git_dir, 'REVERT_HEAD')):
             self.repo.action = 'revert'
             return
 
@@ -245,7 +244,7 @@ class PromptBuilder:
         self.current_part = []
 
     def add(self, env_key, env_default):
-        self.current_part.append(Template(os.getenv('GITLINE_' + env_key, env_default)).substitute(self.data))
+        self.current_part.append(Template(getenv('GITLINE_' + env_key, env_default)).substitute(self.data))
 
     def add_section(self):
         self.parts.append(self.current_part)
@@ -338,7 +337,7 @@ if __name__ == '__main__':
     parser.add_argument('--shell', choices=['bash', 'fish', 'zsh'], help='the shell output format to use')
     args = parser.parse_args()
     if args.directory:
-        os.chdir(args.directory)
+        chdir(args.directory)
 
     r = RepositoryParser.parse()
     if r:
