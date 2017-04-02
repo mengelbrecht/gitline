@@ -61,7 +61,8 @@ def parallel(tasks):
 
 
 def extract_branch_name(spec, replacement):
-    return spec.replace('refs/heads/', replacement)
+    spec = spec.replace('refs/heads/', '')
+    return replacement + '/' + spec if replacement else spec
 
 
 # }}}
