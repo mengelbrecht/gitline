@@ -334,7 +334,8 @@ def build_prompt(colors, repo):
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('directory', nargs='?', help='directory to display git info for')
-    parser.add_argument('--shell', choices=['bash', 'fish', 'zsh'], help='the shell output format to use')
+    parser.add_argument('--shell', default='bash', choices=['bash', 'fish', 'zsh'],
+                        help='the shell output format to use')
     args = parser.parse_args()
     if args.directory:
         chdir(args.directory)
