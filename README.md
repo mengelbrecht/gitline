@@ -90,7 +90,7 @@ Available colors are: `gray`, `red`, `green`, `yellow`, `blue`,
 
 Defines the git repository indicator text.
 Default is:
-```bash
+```shell
 ${reset}ᚴ
 ```
 
@@ -100,7 +100,7 @@ ${reset}ᚴ
 
 Defines the format used to display if a git action _without_ step counts like eg. cherry-pick is currently performed.
 Default is:
-```bash
+```shell
 ${yellow}${action}${reset}
 ```
 
@@ -108,7 +108,7 @@ ${yellow}${action}${reset}
 
 Defines the format used to display if a git action _with_ step counts like eg. interactive rebase is currently performed.
 Default is:
-```bash
+```shell
 ${yellow}${action}${reset} ${blue}${action_step}${reset}/${green}${action_total}${reset}
 ```
 
@@ -118,7 +118,7 @@ ${yellow}${action}${reset} ${blue}${action_step}${reset}/${green}${action_total}
 
 Defines the text which is displayed if the branch has no remote tracking branch.
 Default is:
-```bash
+```shell
 upstream ${red}⚡${reset}
 ```
 
@@ -128,7 +128,7 @@ upstream ${red}⚡${reset}
 
 Defines the format used to display commits which can be pushed and pulled to/from `origin/master`.
 Default is:
-```bash
+```shell
 𝘮 ${remote_commits_to_pull} ${yellow}⇄${reset} ${remote_commits_to_push}
 ```
 
@@ -136,7 +136,7 @@ Default is:
 
 Defines the format used to display commits which can be pulled from `origin/master`.
 Default is:
-```bash
+```shell
 𝘮 ${red}→${reset}${remote_commits_to_pull}
 ```
 
@@ -144,7 +144,7 @@ Default is:
 
 Defines the format used to display commits which can be pushed to `origin/master`.
 Default is:
-```bash
+```shell
 𝘮 ${green}←${reset}${remote_commits_to_push}
 ```
 
@@ -154,7 +154,7 @@ Default is:
 
 Defines the format for the local branch.
 Default is:
-```bash
+```shell
 ${branch}
 ```
 
@@ -162,7 +162,7 @@ ${branch}
 
 Defines the format if a tag is checked out.
 Default is:
-```bash
+```shell
 ${commit_tag}
 ```
 
@@ -170,7 +170,7 @@ ${commit_tag}
 
 Defines the format if the repository is not on a branch.
 Default is:
-```bash
+```shell
 ${red}detached@${commit_hash}${reset}
 ```
 
@@ -180,7 +180,7 @@ ${red}detached@${commit_hash}${reset}
 
 Defines the format used to display commits which can be pushed and pulled to/from the remote tracking branch. 
 Default is:
-```bash
+```shell
 ${local_commits_to_pull} ${yellow}⥯${reset} ${local_commits_to_push}
 ```
 
@@ -188,7 +188,7 @@ ${local_commits_to_pull} ${yellow}⥯${reset} ${local_commits_to_push}
 
 Defines the format used to display commits which can be pulled from the remote tracking branch.
 Default is:
-```bash
+```shell
 ${local_commits_to_pull}${red}↓${reset}
 ```
 
@@ -196,7 +196,7 @@ ${local_commits_to_pull}${red}↓${reset}
 
 Defines the format used to display commits which can be pushed to the remote tracking branch.
 Default is:
-```bash
+```shell
 ${local_commits_to_push}${green}↑${reset}
 ```
 
@@ -206,7 +206,7 @@ ${local_commits_to_push}${green}↑${reset}
 
 Defines the format used to display staged added files.
 Default is:
-```bash
+```shell
 ${staged_added}${green}A${reset}
 ```
 
@@ -214,7 +214,7 @@ ${staged_added}${green}A${reset}
 
 Defines the format used to display staged modified files.
 Default is:
-```bash
+```shell
 ${staged_modified}${green}M${reset}
 ```
 
@@ -222,7 +222,7 @@ ${staged_modified}${green}M${reset}
 
 Defines the format used to display staged deleted files.
 Default is:
-```bash
+```shell
 ${staged_deleted}${green}D${reset}
 ```
 
@@ -230,7 +230,7 @@ ${staged_deleted}${green}D${reset}
 
 Defines the format used to display staged renamed files.
 Default is:
-```bash
+```shell
 ${staged_renamed}${green}R${reset}
 ```
 
@@ -238,7 +238,7 @@ ${staged_renamed}${green}R${reset}
 
 Defines the format used to display staged copied files.
 Default is:
-```bash
+```shell
 ${staged_copied}${green}C${reset}
 ```
 
@@ -248,7 +248,7 @@ ${staged_copied}${green}C${reset}
 
 Defines the format used to display unstaged modified files.
 Default is:
-```bash
+```shell
 ${unstaged_modified}${red}M${reset}
 ```
 
@@ -256,7 +256,7 @@ ${unstaged_modified}${red}M${reset}
 
 Defines the format used to display unstaged deleted files.
 Default is:
-```bash
+```shell
 ${unstaged_deleted}${red}D${reset}
 ```
 
@@ -266,7 +266,7 @@ ${unstaged_deleted}${red}D${reset}
 
 Defines the format used to display untracked files.
 Default is:
-```bash
+```shell
 ${untracked}${white}A${reset}
 ```
 
@@ -276,7 +276,7 @@ ${untracked}${white}A${reset}
 
 Defines the format used to display unmerged files.
 Default is:
-```bash
+```shell
 ${unmerged}${yellow}U${reset}
 ```
 
@@ -286,7 +286,7 @@ ${unmerged}${yellow}U${reset}
 
 Defines the format used to display the number of stashes.
 Default is:
-```bash
+```shell
 ${stashes}${yellow}≡${reset}
 ```
 
