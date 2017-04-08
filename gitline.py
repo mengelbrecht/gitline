@@ -240,19 +240,19 @@ class PromptBuilder:
         self.data = {}
         self.data.update(colors)
         self.data.update(vars(repo))
-        self.parts = []
-        self.current_part = []
+        self.sections = []
+        self.current_section = []
 
     def add(self, env_key, env_default):
-        self.current_part.append(Template(getenv('GITLINE_' + env_key, env_default)).substitute(self.data))
+        self.current_section.append(Template(getenv('GITLINE_' + env_key, env_default)).substitute(self.data))
 
     def add_section(self):
-        self.parts.append(self.current_part)
-        self.current_part = []
+        self.sections.append(self.current_section)
+        self.current_section = []
 
     def build(self):
         self.add_section()
-        return ' '.join(''.join(part) for part in self.parts if part)
+        return ' '.join(''.join(part) for part in self.sections if part)
 
 
 def build_prompt(colors, repo):
