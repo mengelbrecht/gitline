@@ -136,7 +136,7 @@ class RepositoryParser:
         self.repo.branch = execute(['git', 'symbolic-ref', '--short', 'HEAD'])
 
     def _stashes(self):
-        self.repo.stashes = len(filter(bool, execute(['git', 'stash', 'list']).splitlines()))
+        self.repo.stashes = len(list(filter(bool, execute(['git', 'stash', 'list']).splitlines())))
 
     def _commit_hash(self):
         self.repo.commit_hash = execute(['git', 'rev-parse', '--short', 'HEAD'])
